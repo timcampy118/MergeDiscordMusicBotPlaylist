@@ -74,6 +74,7 @@ public static void removeDuplicates(ArrayList<String> list) throws IOException
 				if((list.get(x).substring(32, 43)).equals(list.get(y).substring(32, 43)))
 				{
 					list.remove(y);
+					y--;
 				}
 			}	
 	}
