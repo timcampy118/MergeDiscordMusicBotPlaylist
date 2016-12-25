@@ -1,11 +1,8 @@
-package engineering;
-
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.util.*;
 import javax.swing.JOptionPane;
-import java.util.jar.*;
 
 public class read {
 	
@@ -25,18 +22,14 @@ public static void main (String[] args) throws IOException
     }
 	
 	list=new ArrayList<String>();
-	//autoplaylist
 	String fileName = JOptionPane.showInputDialog("Type in the file path of the audio Cache (do \\\\) ex: C:\\\\Users\\\\Tim\\\\Downloads\\\\MusicBot\\\\audio_cache"); 
-	//JOptionPane.showMessageDialog(null, fileName);
 	final File folder = new File(fileName);
-	//C:\\Users\\Tim\\WorkSpace\\Tamu\\audio_cache
 	listFilesForFolder(folder);
 	
 	scan= new Scanner(new File("autoplaylist.txt"));
 	while (scan.hasNext())
 	{
 		list.add(scan.nextLine());
-		//System.out.println(list.get(list.size()-1));
 	}
 	
 		
@@ -57,7 +50,7 @@ public static void main (String[] args) throws IOException
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(null, "Error Contact Tim: Error 1" + hold);
+			JOptionPane.showMessageDialog(null, "Error, different file type. (.m4a Or .webm) Please send msg to admin" + hold);
 		}
 		list.set(x,hold);  
 	}
@@ -78,20 +71,13 @@ public static void removeDuplicates(ArrayList<String> list) throws IOException
 	{
 		for(int y=x+1;y<list.size();y++)
 		{
-			//System.out.println(list.get(x)+ " " + list.get(y));
 				if((list.get(x).substring(32, 43)).equals(list.get(y).substring(32, 43)))
 				{
-					//System.out.println(list.get(x));
-					//System.out.println(list.get(y));
 					list.remove(y);
-					//System.out.println("");
 				}
 			}	
 	}
 	int newSize=list.size();
-	//printList(list);
-	//System.out.println(list.size());
-	//printList(list);
 	Path file = Paths.get("newPlayList.txt");
 	Files.write(file, list, Charset.forName("UTF-8"));
 
@@ -106,7 +92,7 @@ public static void listFilesForFolder(final File folder)
 		for (final File fileEntry : folder.listFiles()) {
 	        if (fileEntry.isDirectory()) {
 	            listFilesForFolder(fileEntry);
-	            JOptionPane.showMessageDialog(null, "Error Contact Tim: Error 3");
+	            JOptionPane.showMessageDialog(null, "Error, Incorrect Path");
 	        } 
 	        else 
 	        {
@@ -120,13 +106,6 @@ public static void listFilesForFolder(final File folder)
     	JOptionPane.showMessageDialog(null, "Error Invalid path");
 }
 
-public static void printList(ArrayList<String> n)
-{
-	for(int x=0; x<n.size();x++)
-	{
-		System.out.println(n.get(x));
-	}
-}
 
 
 }
