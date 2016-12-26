@@ -26,7 +26,17 @@ public static void main (String[] args) throws IOException
 	final File folder = new File(fileName);
 	listFilesForFolder(folder);
 	
-	scan= new Scanner(new File("autoplaylist.txt"));
+	try
+    	{
+      		scan= new Scanner(new File("autoplaylist.txt"));
+    	}
+    	catch(FileNotFoundException e)
+    	{
+      		JOptionPane.showMessageDialog(null, "The Playlist File is not found, Please put the program in the same folder as the playlist" + e);
+		System.exit(1);
+    	} 
+	
+	
 	while (scan.hasNext())
 	{
 		list.add(scan.nextLine());
@@ -42,11 +52,11 @@ public static void main (String[] args) throws IOException
 		}
 		else if(hold.substring(hold.length()-3).equals("m4a"))
 		{
-		hold="https://www.youtube.com/watch?v=" + hold.substring(8,hold.length()-4);
+			hold="https://www.youtube.com/watch?v=" + hold.substring(8,hold.length()-4);
 		}
 		else if(hold.substring(hold.length()-4).equals("webm"))
 		{
-		hold="https://www.youtube.com/watch?v=" + hold.substring(8, hold.length()-5);
+			hold="https://www.youtube.com/watch?v=" + hold.substring(8, hold.length()-5);
 		}
 		else
 		{
