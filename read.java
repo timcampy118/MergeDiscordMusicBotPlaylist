@@ -9,8 +9,7 @@ public class read {
 private static Scanner scan;
 private static ArrayList <String> list;
 private static boolean delete;
-private static int original;
-private static int added;	
+private static int original;	
 	
 public static void main (String[] args) throws IOException
 {
@@ -80,7 +79,7 @@ public static void main (String[] args) throws IOException
 
 public static void removeDuplicates(ArrayList<String> list) throws IOException
 {
-	int oldSize=list.size();
+	int added=list.size()-original;
 	for(int x=0;x<list.size();x++)
 	{
 		for(int y=x+1;y<list.size();y++)
@@ -92,11 +91,10 @@ public static void removeDuplicates(ArrayList<String> list) throws IOException
 			}
 		}	
 	}
-	added=list.size();
 	Path file = Paths.get("autoplaylist.txt");
 	Files.write(file, list, Charset.forName("UTF-8"));
 	JOptionPane.showMessageDialog(null, "Merging Successful");
-	JOptionPane.showMessageDialog(null, "Number of songs originally " + original + "\n number of songs added" + added + "\n Number of unique songs " + newSize);
+	JOptionPane.showMessageDialog(null, "Number of songs originally " + original + "\n number of songs added" + added + "\n Number of unique songs " + list.size());
 
 }
 
