@@ -9,6 +9,9 @@ public class read {
 private static Scanner scan;
 private static ArrayList <String> list;
 private static boolean delete;
+private static int original;
+private static int added;	
+	
 public static void main (String[] args) throws IOException
 {
 	int reply = JOptionPane.showConfirmDialog(null, "Do you want to delete the Audio Cache after merging?", "Notice", JOptionPane.YES_NO_OPTION);
@@ -36,10 +39,11 @@ public static void main (String[] args) throws IOException
 		System.exit(1);
     	} 
 	
-	
+	original=0;
 	while (scan.hasNext())
 	{
 		list.add(scan.nextLine());
+		original++;
 	}
 	
 		
@@ -81,18 +85,18 @@ public static void removeDuplicates(ArrayList<String> list) throws IOException
 	{
 		for(int y=x+1;y<list.size();y++)
 		{
-				if((list.get(x).substring(32, 43)).equals(list.get(y).substring(32, 43)))
-				{
-					list.remove(y);
-					y--;
-				}
-			}	
+			if((list.get(x).substring(32, 43)).equals(list.get(y).substring(32, 43)))
+			{
+				list.remove(y);
+				y--;
+			}
+		}	
 	}
-	int newSize=list.size();
+	added=list.size();
 	Path file = Paths.get("autoplaylist.txt");
 	Files.write(file, list, Charset.forName("UTF-8"));
 	JOptionPane.showMessageDialog(null, "Merging Successful");
-	JOptionPane.showMessageDialog(null, "Number of songs before " + oldSize + "\n Number of songs now " + newSize);
+	JOptionPane.showMessageDialog(null, "Number of songs originally " + original + "\n number of songs added" + added + "\n Number of unique songs " + newSize);
 
 }
 
