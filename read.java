@@ -89,9 +89,9 @@ public static void removeDuplicates(ArrayList<String> list) throws IOException
 			}	
 	}
 	int newSize=list.size();
-	Path file = Paths.get("newPlayList.txt");
+	Path file = Paths.get("autoplaylist.txt");
 	Files.write(file, list, Charset.forName("UTF-8"));
-
+	JOptionPane.showMessageDialog(null, "Merging Successful");
 	JOptionPane.showMessageDialog(null, "Number of songs before " + oldSize + "\n Number of songs now " + newSize);
 
 }
@@ -101,20 +101,25 @@ public static void listFilesForFolder(final File folder)
     if(folder.isDirectory())
     {
 		for (final File fileEntry : folder.listFiles()) {
-	        if (fileEntry.isDirectory()) {
+	        if (fileEntry.isDirectory()) 
+		{
 	            listFilesForFolder(fileEntry);
 	            JOptionPane.showMessageDialog(null, "Error, Incorrect Path");
+		    System.exit(1);
 	        } 
 	        else 
 	        {
 	            list.add(fileEntry.getName());
 	            if(delete)
-	            fileEntry.delete();
+	            	fileEntry.delete();
 	        }
 	    }
     }
     else
+    {
     	JOptionPane.showMessageDialog(null, "Error Invalid path");
+	System.exit(1);
+    }
 }
 
 
