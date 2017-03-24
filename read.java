@@ -9,8 +9,9 @@ public class read {
 private static Scanner scan;
 private static ArrayList <String> list;
 private static boolean delete;
-private static int original;	
-	
+private static int original;
+private static String hold;
+
 public static void main (String[] args) throws IOException
 {
 	int reply = JOptionPane.showConfirmDialog(null, "Do you want to delete the Audio Cache after merging?", "Notice", JOptionPane.YES_NO_OPTION);
@@ -22,7 +23,7 @@ public static void main (String[] args) throws IOException
     {
        delete = false;
     }
-	
+	//C:\\Users\\Tim\\WorkSpace\\Tamu\\audio_cache
 	list=new ArrayList<String>();
 	String fileName = JOptionPane.showInputDialog("Type in the file path of the audio Cache (do \\\\) ex: C:\\\\Users\\\\Tim\\\\Downloads\\\\MusicBot\\\\audio_cache"); 
 	final File folder = new File(fileName);
@@ -32,7 +33,7 @@ public static void main (String[] args) throws IOException
     	{
       		scan= new Scanner(new File("autoplaylist.txt"));
     	}
-    	catch(FileNotFoundException e)
+    catch(FileNotFoundException e)
     	{
       		JOptionPane.showMessageDialog(null, "The Playlist File is not found, Please put the program in the same folder as the playlist" + e);
 		System.exit(1);
@@ -45,32 +46,53 @@ public static void main (String[] args) throws IOException
 		original++;
 	}
 	
-		
-
-	for(int x=0; x<list.size();x++)
+	try
 	{
-		String hold = list.get(x);
-		if (hold.substring(0,32).equals("https://www.youtube.com/watch?v="))
+
+		for(int x=0; x<list.size();x++)
 		{
+			hold = list.get(x);
+			if (hold.length()<32)
+			{
+				hold="";
+			}
+			else if (hold.substring(0,32).equals("https://www.youtube.com/watch?v="))
+			{
+			}
+			else if(hold.substring(hold.length()-3).equals("m4a"))
+			{
+				hold="https://www.youtube.com/watch?v=" + hold.substring(8,hold.length()-4);
+			}
+			else if(hold.substring(hold.length()-4).equals("webm"))
+			{
+				hold="https://www.youtube.com/watch?v=" + hold.substring(8, hold.length()-5);
+			}
+			else
+			{
+				hold="";
+			}
+			if(hold.length()>1)
+				list.set(x,hold);
+			else
+			{
+				list.remove(x);
+				x--;
+			}
+			
 		}
-		else if(hold.substring(hold.length()-3).equals("m4a"))
-		{
-			hold="https://www.youtube.com/watch?v=" + hold.substring(8,hold.length()-4);
-		}
-		else if(hold.substring(hold.length()-4).equals("webm"))
-		{
-			hold="https://www.youtube.com/watch?v=" + hold.substring(8, hold.length()-5);
-		}
-		else
-		{
-			JOptionPane.showMessageDialog(null, "Error, different file type. (.m4a Or .webm) Please send msg to admin" + hold);
-		}
-		list.set(x,hold);  
 	}
+	
+	catch(IndexOutOfBoundsException r)
+	{
+		JOptionPane.showMessageDialog(null, "Index out of bounds please report to Tim" + hold + r);
+		System.exit(1);
+		
+	}
+	
 	
 	removeDuplicates(list);
 	
-
+	
 }
 
 
@@ -94,36 +116,42 @@ public static void removeDuplicates(ArrayList<String> list) throws IOException
 	Path file = Paths.get("autoplaylist.txt");
 	Files.write(file, list, Charset.forName("UTF-8"));
 	JOptionPane.showMessageDialog(null, "Merging Successful");
-	JOptionPane.showMessageDialog(null, "Number of songs originally " + original + "\n number of songs added" + added + "\n Number of unique songs " + list.size());
+	JOptionPane.showMessageDialog(null, "Number of songs original " + original + "\n Number of songs added " + added + "\n Number of unique songs" + list.size());
 
 }
 
 public static void listFilesForFolder(final File folder) 
 {
+	System.out.println("1");
     if(folder.isDirectory())
     {
+
+    	System.out.println("2");
 		for (final File fileEntry : folder.listFiles()) {
 	        if (fileEntry.isDirectory()) 
-		{
+	        {
+
+	        	System.out.println("3");
 	            listFilesForFolder(fileEntry);
 	            JOptionPane.showMessageDialog(null, "Error, Incorrect Path");
-		    System.exit(1);
 	        } 
 	        else 
 	        {
+
+	        	System.out.println("4");
 	            list.add(fileEntry.getName());
 	            if(delete)
-	            	fileEntry.delete();
+	            fileEntry.delete();
 	        }
 	    }
     }
     else
     {
     	JOptionPane.showMessageDialog(null, "Error Invalid path");
-	System.exit(1);
+    	System.out.println("5");
+    	System.exit(1);
     }
 }
-
 
 
 }
